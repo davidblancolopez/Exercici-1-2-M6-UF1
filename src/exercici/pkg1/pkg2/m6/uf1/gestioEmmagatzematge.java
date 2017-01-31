@@ -100,4 +100,66 @@ public class gestioEmmagatzematge {
         
     }
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    /**
+     * Aquest metode recorre tot el fitxer agafant la informació i introduint-la en les variables
+     * i les imprimeix per pantalla.
+     * @throws FileNotFoundException
+     * @throws IOException 
+     */
+    public void mostrarTotsProductes() throws FileNotFoundException, IOException{
+        RandomAccessFile raf = new RandomAccessFile(fitxer, "r");
+        raf.seek(0);
+        int codi2, unitat;
+        String nom;
+        double preu;
+        
+        do {
+            codi2 = raf.readInt();
+            nom = raf.readUTF();
+            preu = raf.readDouble();
+            unitat = raf.readInt();
+
+                System.out.println("-----------------------------------------------------------------");
+                System.out.println("PRODUCTE");
+                System.out.println("Nom: " + nom);
+                System.out.println("Preu: " + preu);
+                System.out.println("Numero d'unitats: " + unitat);
+                System.out.println("-----------------------------------------------------------------");
+
+        } while (raf.getFilePointer() < fitxer.length());
+        
+    }
 }

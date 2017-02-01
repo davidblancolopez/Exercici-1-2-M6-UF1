@@ -29,6 +29,8 @@ public class gestioEmmagatzematge {
         raf.writeUTF(nom);
         raf.writeDouble(preu);
         raf.writeInt(unitat);
+        
+        raf.close();
     }
 
     /**
@@ -53,41 +55,66 @@ public class gestioEmmagatzematge {
             raf.readInt();
         } while (raf.getFilePointer() < fitxer.length());
 
+        raf.close();
         return codi++;
     }
 
-    public void cercarProductesNom(String nom) throws FileNotFoundException, IOException {
-        RandomAccessFile raf = new RandomAccessFile(fitxer, "r");
-        raf.seek(0);
-        
-        do {
-            raf.readInt();
-            
-        } while (raf.getFilePointer() < fitxer.length());
-        
-    }
-
+    
     /**
-     * Metode que rep un codi per a realitzar la cerca del producte que conté aquest codi
-     * Recorre tot el fitxer agafant la informació i introduint-la en les variables,
-     * si troba el producte amb el codi llavors l'imprimeix per pantalla sino no mostra rés.
-     * @param codi
+     * Aquest metode recorre tots els productes emmagatzemats, en cada pasada del bucle 
+     * guarda la informació en les variables creades i fa un comprobació, si el nom del producte guardat
+     * es igual al que busquem llavors imprimeix per pantalla tota la informació.
+     * @param nom
      * @throws FileNotFoundException
      * @throws IOException 
      */
-    public void cercarProductesCodi(int codi) throws FileNotFoundException, IOException{
+    public void cercarProductesNom(String nom) throws FileNotFoundException, IOException {
+        RandomAccessFile raf = new RandomAccessFile(fitxer, "r");
+        raf.seek(0);
+        int codi, unitat;
+        String nom2;
+        double preu;
+
+        do {
+            codi = raf.readInt();
+            nom2 = raf.readUTF();
+            preu = raf.readDouble();
+            unitat = raf.readInt();
+
+            if (nom2 == nom) {
+                System.out.println("-----------------------------------------------------------------");
+                System.out.println("PRODUCTE");
+                System.out.println("Nom: " + nom);
+                System.out.println("Preu: " + preu);
+                System.out.println("Numero d'unitats: " + unitat);
+                System.out.println("-----------------------------------------------------------------");
+            }
+        } while (raf.getFilePointer() < fitxer.length());
+        raf.close();
+    }
+
+    /**
+     * Aquest metode recorre tots els productes emmagatzemats, en cada pasada del bucle 
+     * guarda la informació en les variables creades i fa un comprobació, si el codi del producte guardat
+     * es igual al que busquem llavors imprimeix per pantalla tota la informació.
+     *
+     * @param codi
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
+    public void cercarProductesCodi(int codi) throws FileNotFoundException, IOException {
         RandomAccessFile raf = new RandomAccessFile(fitxer, "r");
         raf.seek(0);
         int codi2, unitat;
         String nom;
         double preu;
-        
+
         do {
             codi2 = raf.readInt();
             nom = raf.readUTF();
             preu = raf.readDouble();
             unitat = raf.readInt();
-            
+
             if (codi == codi2) {
                 System.out.println("-----------------------------------------------------------------");
                 System.out.println("PRODUCTE");
@@ -97,69 +124,37 @@ public class gestioEmmagatzematge {
                 System.out.println("-----------------------------------------------------------------");
             }
         } while (raf.getFilePointer() < fitxer.length());
-        
+        raf.close();
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     /**
-     * Aquest metode recorre tot el fitxer agafant la informació i introduint-la en les variables
-     * i les imprimeix per pantalla.
+     * Aquest metode recorre tot el fitxer agafant la informació i introduint-la
+     * en les variables i les imprimeix per pantalla.
+     *
      * @throws FileNotFoundException
-     * @throws IOException 
+     * @throws IOException
      */
-    public void mostrarTotsProductes() throws FileNotFoundException, IOException{
+    public void mostrarTotsProductes() throws FileNotFoundException, IOException {
         RandomAccessFile raf = new RandomAccessFile(fitxer, "r");
         raf.seek(0);
         int codi2, unitat;
         String nom;
         double preu;
-        
+
         do {
             codi2 = raf.readInt();
             nom = raf.readUTF();
             preu = raf.readDouble();
             unitat = raf.readInt();
 
-                System.out.println("-----------------------------------------------------------------");
-                System.out.println("PRODUCTE");
-                System.out.println("Nom: " + nom);
-                System.out.println("Preu: " + preu);
-                System.out.println("Numero d'unitats: " + unitat);
-                System.out.println("-----------------------------------------------------------------");
+            System.out.println("-----------------------------------------------------------------");
+            System.out.println("PRODUCTE");
+            System.out.println("Nom: " + nom);
+            System.out.println("Preu: " + preu);
+            System.out.println("Numero d'unitats: " + unitat);
+            System.out.println("-----------------------------------------------------------------");
 
         } while (raf.getFilePointer() < fitxer.length());
-        
+        raf.close();
     }
 }

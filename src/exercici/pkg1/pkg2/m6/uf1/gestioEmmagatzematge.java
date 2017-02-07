@@ -29,7 +29,7 @@ public class gestioEmmagatzematge {
         raf.writeUTF(nom);
         raf.writeDouble(preu);
         raf.writeInt(unitat);
-        
+
         raf.close();
     }
 
@@ -59,14 +59,15 @@ public class gestioEmmagatzematge {
         return codi++;
     }
 
-    
     /**
-     * Aquest metode recorre tots els productes emmagatzemats, en cada pasada del bucle 
-     * guarda la informació en les variables creades i fa un comprobació, si el nom del producte guardat
-     * es igual al que busquem llavors imprimeix per pantalla tota la informació.
+     * Aquest metode recorre tots els productes emmagatzemats, en cada pasada
+     * del bucle guarda la informació en les variables creades i fa un
+     * comprobació, si el nom del producte guardat es igual al que busquem
+     * llavors imprimeix per pantalla tota la informació.
+     *
      * @param nom
      * @throws FileNotFoundException
-     * @throws IOException 
+     * @throws IOException
      */
     public void cercarProductesNom(String nom) throws FileNotFoundException, IOException {
         RandomAccessFile raf = new RandomAccessFile(fitxer, "r");
@@ -94,9 +95,10 @@ public class gestioEmmagatzematge {
     }
 
     /**
-     * Aquest metode recorre tots els productes emmagatzemats, en cada pasada del bucle 
-     * guarda la informació en les variables creades i fa un comprobació, si el codi del producte guardat
-     * es igual al que busquem llavors imprimeix per pantalla tota la informació.
+     * Aquest metode recorre tots els productes emmagatzemats, en cada pasada
+     * del bucle guarda la informació en les variables creades i fa un
+     * comprobació, si el codi del producte guardat es igual al que busquem
+     * llavors imprimeix per pantalla tota la informació.
      *
      * @param codi
      * @throws FileNotFoundException
@@ -157,4 +159,36 @@ public class gestioEmmagatzematge {
         } while (raf.getFilePointer() < fitxer.length());
         raf.close();
     }
+
+    /**
+     * Metode que rep el nom del producte, el nou preu i el nou numero d'unitats.
+     * Va llegint tot el fitxer i comproba els noms que va recollint amb el que se li ha
+     * passat, si es igual llavors modifica els camps de preu i unitats amb les noves quantitats,
+     * si no es igual llavors segueix llegint normal fins que trobi el producte.
+     * @param nom
+     * @param preu
+     * @param unitats
+     * @throws IOException 
+     */
+    public void modificarRegistre(String nom, double preu, int unitats) throws IOException {
+        RandomAccessFile raf = new RandomAccessFile(fitxer, "r");
+        raf.seek(0);
+
+        do {
+            raf.readInt();
+            String nom2 = raf.readUTF();
+
+            if (nom == nom2) {
+                raf.writeDouble(preu);
+                raf.writeInt(unitats);
+            } else {
+                raf.readDouble();
+                raf.readInt();
+            }
+
+        } while (raf.getFilePointer() < fitxer.length());
+        
+        raf.close();
+    }
+
 }
